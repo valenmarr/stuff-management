@@ -1,0 +1,116 @@
+<Katbin/>
+Register
+Log in
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" placeholder="Category of category" id="category">
+  <button type="button" onclick="SaveCategory()" id="save">Save</button>
+  <table style="margin-top: 20px">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="result">
+      <tr>
+        <td>1</td>
+        <td>Furniture</td>
+        <td>
+          <button type="button">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const GetCategory = async() => {
+      await axios.get('http://localhost:3000/category')
+      .then((response)=>{
+          console.log(response.data);
+          const category = response.data;
+          let bucket = '';
+          category.forEach((category, index) => {
+            bucket += `
+            <option value="${category.category}">${category.category}</option>
+            >`;
+          });
+          document.getElementById('result').innerHTML = bucket;
+      })
+      .catch((error)=>{
+          alert(error.message);
+      });
+    };
+    GetCategory();
+    const SaveCategory = async() => {
+      let category = document.getElementById('category').value;
+      await axios.post('http://localhost:3000/category',{
+        category:category
+      })
+      .then((response)=>{
+          console.log(response);
+          GetCategory();
+      })
+      .catch((error)=>{
+          alert(error.message);
+      });
+    };
+
+    const DeleteCategory = async(id) => {
+      await axios
+      .delete(`http://localhost:3000/category/${id}`)
+      .then((response)=>{
+          console.log(response);
+          GetCategory();
+      })
+      .catch((error)=>{
+          alert(error.message);
+      });
+    };
+    
+    const EditCategory = async(id) => {
+      await axios
+      .get(`http://localhost:3000/category/${id}`)
+      .then((response)=>{
+        const category = response.data;
+        document.getElementById("category").value = category.category;
+        document.getElementById("save").innerText = "update";
+        document.getElementById("save").setAttribute("onclick", `UpdateCategory('${id}')`);
+        console.log(response);
+          // GetStuff();
+      })
+      .catch((error)=>{
+          alert(error.message);
+      });
+    };
+
+    const UpdateCategory = async(id) => {
+      let category = document.getElementById('category').value;
+      await axios
+      .put(`http://localhost:3000/category/${id}`,{
+        category:category
+      })
+      .then((response)=>{
+          console.log(response);
+          document.getElementById("category").value = "";
+          document.getElementById("save").innerText = "Save"; 
+          document.getElementById("save").setAttribute("onclick", `SaveCategory()`);
+          GetCategory();
+      })
+      .catch((error)=>{
+          alert(error.message);
+      });
+    };
+
+  </script>
+</body>
+</html>
+© 2024 SphericalKat
+Fork me!

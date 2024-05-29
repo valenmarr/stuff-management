@@ -1,0 +1,35 @@
+{
+  "stuff": [
+    {
+      "name": "Table",
+      "price": "13.00",
+      "category": "Furniture",
+      "id": "95d1"
+    },
+    {
+      "id": "903a",
+      "name": "Chair",
+      "price": "12.00",
+      "category": "Furniture"
+    },
+    {
+      "id": "0ee3",
+      "name": "Mirror",
+      "price": "24.00",
+      "category": "Furniture"
+    },
+    {
+      "id": "76f5",
+      "name": "Laptop",
+      "price": "442.00",
+      "category": "Electronic"
+    },
+    {
+      "name": "PC",
+      "price": "120000",
+      "category": "Electronic",
+      "id": "ed70"
+    }
+    ],
+    
+}
